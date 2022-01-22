@@ -1,5 +1,3 @@
-import datetime as dt
-import csv
 from structure import Train
 
 # loop to check the best time for a train to leave to pick up as many ppl as possible

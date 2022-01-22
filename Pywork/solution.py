@@ -1,4 +1,4 @@
-from structure import Station, Train, csv
+from structure import Train, csv
 
 
 # Function to write the CSV information for the given schedule
