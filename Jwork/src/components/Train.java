@@ -17,7 +17,7 @@ public class Train implements Drawable {
 	int AArrivalTime, BArrivalTime, CArrivalTime, UnionArrivalTime;
 	double x, y, width, height;
 	
-	public Train(int number, Type type, int AArrivalTime, int BArrivalTime, int CArrivalTime, int UnionArrivalTime, double x, double y, double width, double height) {
+	public Train(int number, Type type, int AArrivalTime, int BArrivalTime, int CArrivalTime, int UnionArrivalTime) {
 		this.number = number;
 		this.type = type;
 		switch (type) {
@@ -31,10 +31,10 @@ public class Train implements Drawable {
 		this.BArrivalTime = BArrivalTime;
 		this.CArrivalTime = CArrivalTime;
 		this.UnionArrivalTime = UnionArrivalTime;
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+		this.x = 0;
+		this.y = 0;
+		this.width = 0;
+		this.height = 0;
 	}
 
 	@Override
