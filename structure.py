@@ -8,24 +8,28 @@ class Station:
 
         # Minutes to reach next station after arrival (3 min dwell + travel time)
         self.time_to_next = time_to_next
+    
+    @classmethod
+    def initialise_stations(cls):
+        # Initial work to read input data
+        a = []
+        b = []
+        c = []
 
-class Train:
-    # Initial work to read input data
-    a = []
-    b = []
-    c = []
+        with open("./input.csv", "r") as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=",")
 
-    with open("./input.csv", "r") as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=",")
+            for i, row in enumerate(csv_reader):
+                if not i:
+                    continue
 
-        for i, row in enumerate(csv_reader):
-            if not i:
-                continue
+                [a, b, c][["A", "B", "C"].index(row[0])].append(int(row[1]))
+        
+        return [cls(l, t) for l, t in [(a, 11), (b, 12), (c, 14)]]
 
-            [a, b, c][["A", "B", "C"].index(row[0])].append(int(row[1]))  
+class Train: 
 
-
-    stations = [Station(l, t) for l, t in [(a, 11), (b, 12), (c, 14)]]  # A list of stations
+    stations =  Station.initialise_stations() # A list of stations
     total_waiting_time = 0  # The total time spent waiting for all passengers
     total_passengers_collected = 0  # The total amount of people that took the train
 

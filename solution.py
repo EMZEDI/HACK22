@@ -34,6 +34,7 @@ def write_csv(trains: list) -> None:
 # and the second represents the departure time (minutes after 7AM)
 
 # This schedule currently reflects the one provided in the Google Drive file from RailVision
+
 schedule = [
     (200, 0),
     (400, 10),
@@ -55,6 +56,39 @@ schedule = [
 
 trains = [Train(c, t) for c, t in schedule]
 av = Train.run_schedule(trains)
+
+"""
+# The following is a brute force way to find the best permutation of trains, given that they depart
+# 11 mins apart (except the last, departing at 10 AM)
+
+import itertools
+
+L4_indexes = itertools.combinations(range(16), r=4)
+perms = [[200 if i in comb else 400 for i in range(16)] for comb in L4_indexes]
+
+
+# Assume the first permutation is the best
+best = [Train(c, 180 if i == 15 else i * 11) for i, c in enumerate(perms[0])]
+min_wait = Train.run_schedule(best)
+
+
+for i, perm in enumerate(perms):
+
+    Train.total_passengers_collected = 0
+    Train.total_waiting_time = 0
+    Train.stations = Station.initialise_stations()
+
+    trains = [Train(c, 180 if i == 15 else i * 11) for i, c in enumerate(perm)]
+
+    av = Train.run_schedule(trains)
+
+    if av < min_wait:
+        min_wait = av
+        best = trains
+"""
+ 
+
+
 
 # Writing the CSV of the schedule
 write_csv(trains)
