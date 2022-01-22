@@ -100,7 +100,7 @@ public class MainFrame extends JFrame {
 			e.printStackTrace();
 		}
 		try {
-			MainFrame frame = new MainFrame(CsvReader.readCsvFile());
+			MainFrame frame = new MainFrame(CsvReader.readScheduleFile());
 			frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -194,7 +194,7 @@ public class MainFrame extends JFrame {
 		sldrSpeed.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				if (!sldrSpeed.getValueIsAdjusting()) {
-					animation.setSpeed(sldrSpeed.getValue());
+					animation.setFramesPerMinute(sldrSpeed.getValue());
 				}
 			}
 		});

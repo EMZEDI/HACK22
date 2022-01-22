@@ -11,7 +11,7 @@ public class Animation extends JPanel implements Runnable {
 	
 	private ArrayList<Train> trains;
 	private boolean animationRunning = false;
-	private int speed;
+	private int framesPerMinute;
 	
 	private final long SLEEP_TIME = 50;
 	
@@ -23,7 +23,7 @@ public class Animation extends JPanel implements Runnable {
 	@Override
 	public void run() {
 		while(animationRunning) {
-			System.out.println("Animation!!  Speed:" + speed);// TODO
+			System.out.println("Animation!!  Speed:" + framesPerMinute);// TODO
 			repaint();
 			try {
 				Thread.sleep(SLEEP_TIME);
@@ -34,8 +34,8 @@ public class Animation extends JPanel implements Runnable {
 		System.out.println("Animation stopped");
 	}
 	
-	public void setSpeed(int speed) {
-		this.speed = speed;
+	public void setFramesPerMinute(int framesPerMinute) {
+		this.framesPerMinute = framesPerMinute;
 	}
 	public void start() {
 		if (!animationRunning) { 

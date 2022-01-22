@@ -13,7 +13,7 @@ public abstract class CsvReader {
 	private static final int NUMBER_OF_LINES = 16;
 	private static final int MINIMUM_ARRIVAL_HOUR = 7;
 	
-	public static ArrayList<Train> readCsvFile() throws FileReadingException {
+	public static ArrayList<Train> readScheduleFile() throws FileReadingException {
 		ArrayList<Train> trains = new ArrayList<Train>();
 		File file = new File("../" + FILE_NAME);
 		Scanner scan = null;
