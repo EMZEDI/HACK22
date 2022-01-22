@@ -1,10 +1,10 @@
 /*
  * PLAN
  * 
- * For the objects, time is an int in minutes
- * For the animatoin, tine is a double in minutes
+ * For the objects, time is an int in minutes, starting at 0
+ * For the animatoin, tine is a double in minutes, starting at 0
  * 
- * Classes: MainFrame(JFrame), Animation, CsvReader, Drawable, Passenger, Train(Drawable), Station(Drawable), Schedule(JTable)
+ * Classes: MainFrame(JFrame), Animation, CsvReader, Drawable, Passenger, Train(Drawable), Station(Drawable), Table(JTable)
  * 
  * Train (drawable):
  * - int number
@@ -25,7 +25,7 @@
  * 
  * Passenger:
  * - int waiting time
- * + waitOneMinutes()
+ * + waitOneMinute()
  * 
  * ALGORITHM FOR THE ANIMATION:
  * Increment current time (in double, so change not necessarily visible on the rounded display)
