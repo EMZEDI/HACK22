@@ -130,3 +130,6 @@ dmypy.json
 
 # Other
 output.csv
+
+/Jwork/bin/
+/Jwork/target/
