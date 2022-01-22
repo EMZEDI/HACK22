@@ -3,10 +3,9 @@ from structure import Station, Train, csv
 
 # Function to write the CSV information for the given schedule
 def write_csv(trains: list) -> None:
-
     with open("output.csv", "w") as output:
         writer = csv.writer(output, delimiter=",")
-        
+
         writer.writerow([
             "TrainNum",
             "TrainType",
@@ -86,8 +85,6 @@ for i, perm in enumerate(perms):
         min_wait = av
         best = trains
 """
- 
-
 
 
 # Writing the CSV of the schedule
