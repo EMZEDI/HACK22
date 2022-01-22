@@ -1,5 +1,3 @@
-import pandas as pd
-import numpy as np
 import datetime as dt
 import csv
 from structure import Train
