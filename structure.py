@@ -3,14 +3,14 @@ import csv, datetime
 class Station:
 
     def __init__(self, passengers: list, time_to_next: int) -> None:
-        # A list of integers. The index represents the time at which
-        # that number of people arrive at the station andt he integer
-        # itself represents the number of people remaining 
+        # A list of integer represents the number of people remaining from each time interval
         self.passengers = passengers
+
+        # Minutes to reach next station after arrival (3 min dwell + travel time)
         self.time_to_next = time_to_next
 
 class Train:
-
+    # Initial work to read input data
     a = []
     b = []
     c = []
@@ -25,53 +25,84 @@ class Train:
             [a, b, c][["A", "B", "C"].index(row[0])].append(int(row[1]))  
 
 
-    stations = [Station(l, t) for l, t in [(a, 11), (b, 12), (c, 14)]]
-    total_waiting_time = 0
-    total_passengers_collected = 0
+    stations = [Station(l, t) for l, t in [(a, 11), (b, 12), (c, 14)]]  # A list of stations
+    total_waiting_time = 0  # The total time spent waiting for all passengers
+    total_passengers_collected = 0  # The total amount of people that took the train
 
-    # capacity varies on L4 or L8 and current_time is initialised to the
-    # departure time
+    
     def __init__(self, capacity: int, current_time: int) -> None:
-        self.capacity = capacity
-        self.remaining = capacity
-        self.current_time = current_time
-        self.details = ["L4" if capacity == 200 else "L8"]
+        self.capacity = capacity  # The capacity of the train
+        self.remaining = capacity  # Seats remaining on the train
+        self.current_time = current_time  # The current time, represented as minutes after 7 AM
+        self.details = ["L4" if capacity == 200 else "L8"]  # CSV details for the train
 
-    def run_train(self):
+    
+    # Runs a train based on its scheduled start time and capacity
+    def run_train(self) -> None:
+        
+        # Iterating through the stations
         for station in Train.stations:
+
+            # Appending station's arrival time
             self.details.append((datetime.datetime(2000, 1, 1, 7, 0) 
             + datetime.timedelta(minutes=self.current_time)).strftime("%-I:%M"))
 
+            # Appending available capacity
             self.details.append(self.remaining)
 
+            # Number of passengers taken at this station
             passengers_taken = 0
 
+            # Iterating in terms of first come first serve
             for i in range(len(station.passengers)):
-                if i * 10 > self.current_time:
-                    break
 
+                # Passengers arrive in 10 minutes intervals after 7 AM
+                # Break if the arrival time is in the future or if there's no space
+                if i * 10 > self.current_time or self.remaining == 0:
+                    break
+                
+                # If there's no people, check the next time interval
+                if not station.passengers[i]:
+                    continue
+
+                # If not enough capacity, take as many as you can and break
                 if self.remaining - station.passengers[i] < 0:
+                    
+                    # Taking as many as we can
                     station.passengers[i] -= self.remaining
-                    passengers_taken += self.remaining
+
+                    # Adjusting waiting time and passengers collected
                     Train.total_waiting_time += self.remaining * (self.current_time - (i * 10))
-                    Train.total_passengers_collected += self.remaining
+                    passengers_taken += self.remaining
+
+                    # No more space left
                     self.remaining = 0
                     break
                 else:
+
+                    # Taking all people since we have space
                     self.remaining -= station.passengers[i]
-                    passengers_taken += station.passengers[i]
+                    
+                    # Adjusting waiting time and passengers collected
                     Train.total_waiting_time += station.passengers[i] * (self.current_time - (i * 10))
-                    Train.total_passengers_collected += station.passengers[i]
+                    passengers_taken += station.passengers[i]
+                    
+                    # No more people left for this arrival time
                     station.passengers[i] = 0
             
-            self.details.append(passengers_taken)
-            self.current_time += station.time_to_next
 
+            self.details.append(passengers_taken)  # Appending passengers taken at this station
+            Train.total_passengers_collected += passengers_taken  # Adding passengers taken at this station
+            self.current_time += station.time_to_next  # Updating the time (for the next station)
+
+        # Appending Union Station's arrival time, available capacity, and offloaded amount
         self.details.append((datetime.datetime(2000, 1, 1, 7, 0) 
             + datetime.timedelta(minutes=self.current_time)).strftime("%-I:%M"))
         self.details.append(self.remaining)
         self.details.append(self.capacity - self.remaining)
     
+
+    # Runs the trains according to schedule, returning the average wait time
     @staticmethod
     def run_schedule(trains: list) -> float:
         for train in trains:

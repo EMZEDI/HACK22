@@ -1,5 +1,7 @@
 from structure import Station, Train, csv
 
+
+# Function to write the CSV information for the given schedule
 def write_csv(trains: list) -> None:
 
     with open("output.csv", "w") as output:
@@ -26,6 +28,12 @@ def write_csv(trains: list) -> None:
             writer.writerow([i + 1] + train.details)
 
 
+# Everything after this is testing, here we need to find a way to optimize 'schedule'
+
+# Our schedule has the format where the first number represents the train capacity (4 x 200; 12 x 400)
+# and the second represents the departure time (minutes after 7AM)
+
+# This schedule currently reflects the one provided in the Google Drive file from RailVision
 schedule = [
     (200, 0),
     (400, 10),
@@ -46,10 +54,11 @@ schedule = [
 ]
 
 trains = [Train(c, t) for c, t in schedule]
-
 av = Train.run_schedule(trains)
 
+# Writing the CSV of the schedule
 write_csv(trains)
 
+# For checking
 print(av)
 print(Train.total_passengers_collected)
