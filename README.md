@@ -6,7 +6,7 @@ In this repository you can find:<br>
 - ☺️ The source code/directories for the visualization animation of the same problem given the input and output which uses <b>Java</b>.
 - ☺️ The source code/directories for our website made up using <b>Django, HTML and CSS + using a .tech domain and google cloud! </b>
 - To see the project overview and result go to our website: 
-- For detailed "How to run" you can find the information below:
+- For detailed "How to run" you can find the information below: http://mchackstransit.herokuapp.com/
 ---
 # To run the files:
 1- To run the <b>python</b> file associated with the algorithm and see the csv file as an output, Make sure you have python3 installed
