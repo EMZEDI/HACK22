@@ -1,9 +1,11 @@
 from structure import Train, Station, csv
 import itertools
 
+
 '''FUNDAMENTAL ASSUMPTION BEHIND ALGORITHM: To minimize the average wait time, trains should be sent at the time when
 they will enounter the most number of people. Encounter is defined as people who arrived at the station in the two most
 recent arrival time intervals'''
+
 
 def optimize():
     L4_indexes = itertools.combinations(range(15), r=3)
@@ -13,19 +15,25 @@ def optimize():
     best = [Train(c, t) for c, t in optimize_permutation(perms[0])]
     min_wait = Train.run_schedule(best)
     
+    # Iterate through all possible permutations
     for perm in perms:
+
+        # Reinitializing class variables
         Train.total_passengers_collected = 0
         Train.total_waiting_time = 0
         Train.stations = Station.initialise_stations()
         Train.optimize_copy = Station.initialise_stations()
 
+        # Optimized train set and average wait time base on optimization of permutation
         trains = [Train(c, t) for c, t in optimize_permutation(perm)]
         av = Train.run_schedule(trains)
 
+        # If this permutation yield a faster time, update
         if av < min_wait:
             min_wait = av
             best = trains
     
+    # Return the best train set and minimum average wait time
     return best, min_wait
 
 # Function to optimize the train schedule
@@ -36,10 +44,6 @@ def optimize_permutation(trainTypes):
 
     # List of times unavailable for train departure: will be appended as each train departure time is set
     unavailableTimes = []
-
-    # List of train types that the algorithm will iterate through IF WE HAVE TIME: calcualate the average waiting
-    # time for all permutations of this list. For now, list order chosen by trial and error Only 15 trains in this
-    # list, as the last train must leave at 10:00 to make sure everyone is picked up
 
     # List of tuples, of parameters used to construct a train object. Tuple is (capacity, current_time)
     trainSchedule = []
@@ -63,8 +67,8 @@ def optimize_permutation(trainTypes):
                     maxEncountered = encountered
                     bestTime = time
 
-        # Append this best time to a list of unavailable times, as well as +/- 2 of that time to avoid conflicts in
-        # the station
+        # Append this best time to a list of unavailable times, as well as +/- 2 of that 
+        # time to avoid conflicts in the station
         unavailableTimes.append(bestTime)
         unavailableTimes.append(bestTime - 1)
         unavailableTimes.append(bestTime - 2)
@@ -116,44 +120,4 @@ def makeSchedule():
     # Writing the CSV of the schedule
     write_csv(trains)
 
-    # For checking
-    # print(av)
-    # print(Train.total_passengers_collected)
     return av
-
-
-# PRELIMINATRY CODE TO RUN EVERY PERMUTATION OF THE TRAIN LIST, AND CALCULATE THE AVERAGE WAIT TIME FOR THAT
-
-"""
-# The following is a brute force way to find the best permutation of trains, given that they depart
-# 11 mins apart (except the last, departing at 10 AM)
-
-import itertools
-
-L4_indexes = itertools.combinations(range(16), r=4)
-perms = [[200 if i in comb else 400 for i in range(16)] for comb in L4_indexes]
-
-
-# Assume the first permutation is the best
-best = [Train(c, 180 if i == 15 else i * 11) for i, c in enumerate(perms[0])]
-min_wait = Train.run_schedule(best)
-
-
-for i, perm in enumerate(perms):
-
-    Train.total_passengers_collected = 0
-    Train.total_waiting_time = 0
-    Train.stations = Station.initialise_stations()
-
-    trains = [Train(c, 180 if i == 15 else i * 11) for i, c in enumerate(perm)]
-
-    av = Train.run_schedule(trains)
-
-    if av < min_wait:
-        min_wait = av
-        best = trains
-"""
-
-x = makeSchedule()
-print("Please refer to the output.csv file for the complete train schedule. The average waiting time is", str(x) +
-      " Minutes for each person! Unbelievable!")
