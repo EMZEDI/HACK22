@@ -14,7 +14,7 @@ public class Train implements Drawable {
 	}
 	
 	public enum Station {
-		NONE, A, B, C, UNION
+		NONE, A, B, C, UNION, TRAVELLING
 	}
 
 	private int number;
@@ -89,28 +89,41 @@ public class Train implements Drawable {
 	
 	public void updatePosition(double currentTime) {
 		if (currentTime < AArrivalTime) {
+			currentStation = Station.NONE;
 			proportionTravelled =  -1;
 		} else if (currentTime <= AArrivalTime + DWELL_TIME) {
-			currentStation = Station.A;
+			if (currentTime == AArrivalTime) {
+				currentStation = Station.A;
+			} else {
+				currentStation = Station.TRAVELLING;
+			}
 			proportionTravelled =  0;
 		}
 		else if (currentTime < BArrivalTime) {
-			currentStation = Station.NONE;
+			currentStation = Station.TRAVELLING;
 			proportionTravelled =  B_PROPORTION * (currentTime - AArrivalTime - DWELL_TIME) / A_TO_B_TIME;
 		} else if (currentTime <= BArrivalTime + DWELL_TIME) {
-			currentStation = Station.B;
+			if (currentTime == BArrivalTime) {
+				currentStation = Station.B;
+			} else {
+				currentStation = Station.TRAVELLING;
+			}
 			proportionTravelled =  B_PROPORTION;
 		} else if (currentTime < CArrivalTime) {
-			currentStation = Station.NONE;
+			currentStation = Station.TRAVELLING;
 			proportionTravelled =  B_PROPORTION + C_PROPORTION * (currentTime - BArrivalTime - DWELL_TIME) / B_TO_C_TIME;
 		} else if (currentTime <= CArrivalTime + DWELL_TIME) {
-			currentStation = Station.C;
+			if (currentTime == CArrivalTime) {
+				currentStation = Station.C;
+			} else {
+				currentStation = Station.TRAVELLING;
+			}
 			proportionTravelled =  B_PROPORTION + C_PROPORTION;
 		} else if (currentTime < UnionArrivalTime) {
-			currentStation = Station.NONE;
+			currentStation = Station.TRAVELLING;
 			proportionTravelled =  B_PROPORTION + C_PROPORTION + UNION_PROPORTION * (currentTime - CArrivalTime - DWELL_TIME) / C_TO_UNION_TIME;
 		} else {
-			currentStation = Station.NONE;
+			currentStation = Station.UNION;
 			proportionTravelled = 1;
 		}
 	}
@@ -141,6 +154,38 @@ public class Train implements Drawable {
 	
 	public int getAvailableSpace() {
 		return capacity - numberOfPassengers;
+	}
+
+	public String getType() {
+		switch (type) {
+		case L4:
+			return "L4";
+		case L8:
+			return "L8";
+		default:
+			return "";
+		}
+	}
+	
+	public String getAArrivalTime() {
+		int heures = 7 + AArrivalTime/60;
+		int minutes = this.AArrivalTime%60;
+		String strHeures, strMinutes;
+		if (heures >= 10) {
+			strHeures = "" + heures;
+		} else {
+			strHeures = "0" + heures;
+		}
+		if (minutes >= 10) {
+			strMinutes = "" + minutes;
+		} else {
+			strMinutes = "0" + minutes;
+		}
+		return strHeures + ":" + strMinutes; 
+	}
+
+	public int getNumber() {
+		return number;
 	}
 
 }

@@ -49,7 +49,7 @@ public class Station implements Drawable {
 			g2dPrivate.drawString(secondPart, (float) (x + width/2 - g2dPrivate.getFontMetrics().stringWidth(secondPart)/2), (float) (y + height/2 + FONT.getSize()*5/4));
 		} else {
 			g2dPrivate.drawString(name, (float) (x + width/2 - g2dPrivate.getFontMetrics().stringWidth(name)/2), (float) (y + height/2 - FONT.getSize()*0.5));
-			String firstPassengerString = waitingPassengers.size() + " pass.";
+			String firstPassengerString = waitingPassengers.size() + " passengers";
 			String secondPassengerString = "waiting";
 			g2dPrivate.drawString(firstPassengerString,  (float) (x + width/2 - g2dPrivate.getFontMetrics().stringWidth(firstPassengerString)/2), (float) (y + height/2 + FONT.getSize()*0.5));
 			g2dPrivate.drawString(secondPassengerString,  (float) (x + width/2 - g2dPrivate.getFontMetrics().stringWidth(secondPassengerString)/2), (float) (y + height/2 + FONT.getSize()*1.5));

@@ -9,7 +9,7 @@ import components.Train;
 
 public abstract class CsvReader {
 	
-	private static final String SCHEDULE_FILE_NAME = "result.csv";
+	private static final String SCHEDULE_FILE_NAME = "results.csv";
 	private static final String SCHEDULE_FILE_PATH = "../" + SCHEDULE_FILE_NAME;
 	private static final String PASSENGERS_FILE_NAME = "passengerArrivals.csv";
 	private static final String PASSENGERS_FILE_PATH = PASSENGERS_FILE_NAME;

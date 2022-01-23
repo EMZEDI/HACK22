@@ -18,24 +18,28 @@ public class Animation extends JPanel implements Runnable {
 	private ArrayList<Train> trains;
 	private Station stationA, stationB, stationC, stationUnion;
 	private ArrayList<Passenger> allPassengers;
+	private Table table;
 	
 	private boolean animationRunning = false;
 	private int currentTime = 0;
 	private double averageWaitingTime = 0;
 	private int framesPerMinute;
 	private int frame = 0;
+	private double spacing;
 	
 	private final double MARGIN = 10;
 	private final double TRAIN_STATION_SPACING = 10;
-	private final double STATION_WIDTH = 100;
+	private final double STATION_WIDTH = 110;
 	private final double STATION_HEIGHT = 60;
 	private final double TRAIN_WIDTH = 60;
 	private final double TRAIN_HEIGHT = 50;
-	private final int TABLE_HEIGHT = 50;
+	private final int TABLE_HEIGHT = 60;
+	private final int TEXT_HEIGHT = 25;
 	private final Font FONT = new Font("Tahoma", Font.PLAIN, 18);
+	private final Font SMALL_FONT = new Font("Tahoma", Font.PLAIN, 16);
 	
 	private final long SLEEP_TIME = 20;
-	private final int MINIMUM_FRAMES_PER_MINUTE = 5;
+	private final int MINIMUM_FRAMES_PER_MINUTE = 3;
 	private final int FRAME_MULTIPLICATION_FACTOR = 2;
 	private final int MAX_TIME = 217;
 	
@@ -48,13 +52,15 @@ public class Animation extends JPanel implements Runnable {
 		stationA = new Station("STATION A", passengerArrivals.get(0), STATION_WIDTH, STATION_HEIGHT);
 		stationB = new Station("STATION B", passengerArrivals.get(1), STATION_WIDTH, STATION_HEIGHT);
 		stationC = new Station("STATION C", passengerArrivals.get(2), STATION_WIDTH, STATION_HEIGHT);
-		stationUnion = new Station("STATION\nUNION", new int[0], STATION_WIDTH, STATION_HEIGHT);
+		stationUnion = new Station("UNION\nSTATION", new int[0], STATION_WIDTH, STATION_HEIGHT);
 		this.trains = trains;
 		for (Train train : trains) {
 			train.setWidth(TRAIN_WIDTH);
 			train.setHeight(TRAIN_HEIGHT);
 		}
 		allPassengers = new ArrayList<Passenger>();
+		table = new Table(trains);
+		table.setHeight(TABLE_HEIGHT);
 	}
 	
 	@Override
@@ -63,6 +69,9 @@ public class Animation extends JPanel implements Runnable {
 		Graphics2D g2d = (Graphics2D) g;	
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		
+		spacing = (getHeight() - TEXT_HEIGHT - TABLE_HEIGHT - TRAIN_HEIGHT - TRAIN_STATION_SPACING - STATION_HEIGHT) / 4.0;
+
+		drawTable(g2d);
 		drawStations(g2d);
 		drawTrack(g2d);
 		drawTrains(g2d);
@@ -72,6 +81,8 @@ public class Animation extends JPanel implements Runnable {
 	@Override
 	public void run() {
 		updateStations();
+		updateTrainPositions();
+		fillTrains();
 		while(animationRunning && currentTime < MAX_TIME) {
 			frame++;
 			updateTrainPositions();
@@ -126,7 +137,7 @@ public class Animation extends JPanel implements Runnable {
 	}
 
 	private void drawStations(Graphics2D g2d) {
-		double y = getHeight() - STATION_HEIGHT - MARGIN;
+		double y = getHeight() - STATION_HEIGHT - spacing;
 		stationA.setX(MARGIN);
 		stationA.setY(y);
 		stationB.setX(MARGIN + (getWidth() - MARGIN * 2 - STATION_WIDTH) * B_PROPORTION);
@@ -143,7 +154,8 @@ public class Animation extends JPanel implements Runnable {
 
 	private void drawTrack(Graphics2D g2d) {
 		g2d.setStroke(new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0));
-		g2d.draw(new Line2D.Double(MARGIN, getHeight() - MARGIN - STATION_HEIGHT - TRAIN_STATION_SPACING - TRAIN_HEIGHT/2, getWidth() - MARGIN, getHeight() - MARGIN - STATION_HEIGHT - TRAIN_STATION_SPACING - TRAIN_HEIGHT/2));
+		double y = getHeight() - STATION_HEIGHT - TRAIN_STATION_SPACING - TRAIN_HEIGHT/2 - spacing;
+		g2d.draw(new Line2D.Double(MARGIN, y, getWidth() - MARGIN, y));
 	}
 
 	private void drawTrains(Graphics2D g2d) {
@@ -151,7 +163,7 @@ public class Animation extends JPanel implements Runnable {
 			double proportionTravelled = train.getProportionTravelled();
 			if (proportionTravelled > -1 && proportionTravelled < 1) {
 				train.setX(stationA.getX() + STATION_WIDTH/2 - TRAIN_WIDTH/2 + (stationUnion.getX() - stationA.getX()) * proportionTravelled);
-				train.setY(getHeight() - MARGIN - STATION_HEIGHT - TRAIN_STATION_SPACING - TRAIN_HEIGHT);
+				train.setY(getHeight() - STATION_HEIGHT - TRAIN_STATION_SPACING - TRAIN_HEIGHT - spacing);
 				train.draw(g2d);
 			}
 		}
@@ -161,8 +173,24 @@ public class Animation extends JPanel implements Runnable {
 		String currentTime = "Current Time: " + timeToString(this.currentTime);
 		String averageWainting = "Average Waiting Time: " + Math.round(averageWaitingTime * 100) / 100.0;
 		g2d.setFont(FONT);
-		g2d.drawString(currentTime,  (float) (getWidth()/4 - g2d.getFontMetrics().stringWidth(currentTime)/2), (float) (MARGIN + FONT.getSize()*1.5));
-		g2d.drawString(averageWainting,  (float) (getWidth()*3/4 - g2d.getFontMetrics().stringWidth(averageWainting)/2), (float) (MARGIN + FONT.getSize()*1.5));
+		g2d.drawString(currentTime,  (float) (getWidth()/4 - g2d.getFontMetrics().stringWidth(currentTime)/2), (float) (spacing + FONT.getSize()*1.5));
+		g2d.drawString(averageWainting,  (float) (getWidth()*3/4 - g2d.getFontMetrics().stringWidth(averageWainting)/2), (float) (spacing + FONT.getSize()*1.5));
+	}
+
+	private void drawTable(Graphics2D g2d) {
+		String train = "Train";
+		String schedule = "Schedule:";
+		g2d.setFont(SMALL_FONT);
+		int trainWidth = g2d.getFontMetrics().stringWidth(train);
+		int textWidth = g2d.getFontMetrics().stringWidth(schedule);
+		
+		table.setWidth(getWidth() - MARGIN * 3 - textWidth);
+		table.setX(MARGIN * 2 + textWidth);
+		table.setY(spacing * 2 + TEXT_HEIGHT);
+		table.draw(g2d);
+		
+		g2d.drawString(train,  (float) (MARGIN + (textWidth)/2 - trainWidth/2), (float) (table.getY() + table.getHeight()/2));
+		g2d.drawString(schedule,  (float) MARGIN, (float) (table.getY() + table.getHeight()/2 + FONT.getSize()));
 	}
 	
 	private void calculateAverageWaitingTime() {
