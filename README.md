@@ -1,5 +1,6 @@
 # HACK22 REPO 👀
-<h>Welcome to our Repository for the McHacks 9 RailVision Challenge!</h><br>
+![0*2_18iBop2Y2oGkb3](https://user-images.githubusercontent.com/77243080/150665531-50a30b7e-d9c5-42d8-9d96-45e086c16ccb.png)
+# Welcome to our Repository for the McHacks 9 RailVision Challenge!<br>
 In this repository you can find:<br>
 - ☺️ The source code/directories for our RailVision train challenge solution which uses a type of <b>greedy algorithm coded in Python</b> to efficiently compute the best schedule which can be made for a train transportation system given the rush hours to reduce the average passenger waiting time.
 - ☺️ The source code/directories for the visualization animation of the same problem given the input and output which uses <b>Java</b>.
