@@ -32,7 +32,7 @@ class Station:
 
 
 class Train:
-    stations = Station.initialise_stations() # A list of stations
+    stations = Station.initialise_stations()  # A list of stations
     optimize_copy = copy.deepcopy(stations)
     total_waiting_time = 0  # The total time spent waiting for all passengers
     total_passengers_collected = 0  # The total amount of people that took the train
@@ -47,13 +47,12 @@ class Train:
     # Runs a train based on its scheduled start time and capacity
     def run_train(self) -> None:
 
-
         # Iterating through the stations
         for station in Train.stations:
 
             # Appending station's arrival time
             self.details.append((datetime.datetime(2000, 1, 1, 7, 0)
-                                 + datetime.timedelta(minutes=self.current_time)).strftime("%#I:%M"))
+                                 + datetime.timedelta(minutes=self.current_time)).strftime("%-I:%M"))
 
             # Appending available capacity
             self.details.append(self.remaining)
@@ -104,7 +103,7 @@ class Train:
 
         # Appending Union Station's arrival time, available capacity, and offloaded amount
         self.details.append((datetime.datetime(2000, 1, 1, 7, 0)
-                             + datetime.timedelta(minutes=self.current_time)).strftime("%#I:%M"))
+                             + datetime.timedelta(minutes=self.current_time)).strftime("%-I:%M"))
         self.details.append(self.remaining)
         self.details.append(self.capacity - self.remaining)
 
@@ -139,7 +138,7 @@ class Train:
 
         for station in Train.optimize_copy:
             # check for when time exceed 180
-            if self.remaining ==0:
+            if self.remaining == 0:
                 break
 
             if self.current_time > 180:
@@ -151,14 +150,11 @@ class Train:
                 station.passengers[0] = 0
                 self.remaining -= passengers_taken
 
-
-            # no more edge cases: what to do
-
             else:
                 for i in range((self.current_time // 10) - 1, (self.current_time // 10) + 1):
                     # if there is no space for everyone
 
-                    if self.remaining - station.passengers[i] < 0 :
+                    if self.remaining - station.passengers[i] < 0:
                         # Taking as many as we can
                         station.passengers[i] -= self.remaining
                         passengers_taken += self.remaining
@@ -168,6 +164,5 @@ class Train:
                         passengers_taken += station.passengers[i]
                         self.remaining -= station.passengers[i]
                         station.passengers[i] = 0
-
 
             self.current_time += station.time_to_next

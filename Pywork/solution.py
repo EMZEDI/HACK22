@@ -1,4 +1,6 @@
 from structure import Train, csv
+
+
 # function to optimize
 def optimizer():
     # loop to check the best time for a train to leave to pick up as many ppl as possible
@@ -30,18 +32,16 @@ def optimizer():
         unavailableTimes.append(bestTime + 1)
         unavailableTimes.append(bestTime + 2)
 
-
         finalTrain = Train(type1, bestTime)
         finalTrain.run_train_optimize()
         trainSchedule.append((type1, bestTime))
 
         # run the train and remove the passengers it can take
 
-    #train that leaves at 180 is FIXED
+    # train that leaves at 180 is FIXED
     trainSchedule.append((200, 180))
     trainSchedule.sort(key=lambda x: x[1])
     print(trainSchedule)
-
 
     return trainSchedule
 
@@ -74,7 +74,6 @@ def write_csv(trains: list) -> None:
 
 # function that outputs the csv file
 def makeSchedule():
-
     schedule = optimizer()
     trainsList = [Train(c, t) for (c, t) in schedule]
     av = Train.run_schedule(trainsList)
@@ -86,6 +85,8 @@ def makeSchedule():
     print(av)
     print(Train.total_passengers_collected)
     return av
+
+
 """
 # The following is a brute force way to find the best permutation of trains, given that they depart
 # 11 mins apart (except the last, departing at 10 AM)
@@ -115,5 +116,5 @@ for i, perm in enumerate(perms):
         min_wait = av
         best = trains
 """
-x=makeSchedule()
+x = makeSchedule()
 print(x)
