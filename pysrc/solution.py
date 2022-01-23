@@ -1,11 +1,35 @@
-from structure import Train, csv
+from structure import Train, Station, csv
+import itertools
 
 '''FUNDAMENTAL ASSUMPTION BEHIND ALGORITHM: To minimize the average wait time, trains should be sent at the time when
 they will enounter the most number of people. Encounter is defined as people who arrived at the station in the two most
 recent arrival time intervals'''
 
-# Function to optimize the train schedule
 def optimize():
+    L4_indexes = itertools.combinations(range(15), r=3)
+    perms = [[200 if i in comb else 400 for i in range(15)] for comb in L4_indexes]
+
+    # Assume the first permutation is the best
+    best = [Train(c, t) for c, t in optimize_permutation(perms[0])]
+    min_wait = Train.run_schedule(best)
+    
+    for perm in perms:
+        Train.total_passengers_collected = 0
+        Train.total_waiting_time = 0
+        Train.stations = Station.initialise_stations()
+        Train.optimize_copy = Station.initialise_stations()
+
+        trains = [Train(c, t) for c, t in optimize_permutation(perm)]
+        av = Train.run_schedule(trains)
+
+        if av < min_wait:
+            min_wait = av
+            best = trains
+    
+    return best, min_wait
+
+# Function to optimize the train schedule
+def optimize_permutation(trainTypes):
 
     # List of all possible train departure times in minutes
     availableTimes = [minute for minute in range(181)]
@@ -16,7 +40,6 @@ def optimize():
     # List of train types that the algorithm will iterate through IF WE HAVE TIME: calcualate the average waiting
     # time for all permutations of this list. For now, list order chosen by trial and error Only 15 trains in this
     # list, as the last train must leave at 10:00 to make sure everyone is picked up
-    trainTypes = [200, 400, 400, 400, 400, 400, 200, 400, 400, 400, 400, 400, 400, 400, 200]
 
     # List of tuples, of parameters used to construct a train object. Tuple is (capacity, current_time)
     trainSchedule = []
@@ -88,12 +111,10 @@ def write_csv(trains: list) -> None:
 
 # Function that outputs the csv file
 def makeSchedule():
-    schedule = optimize()
-    trainsList = [Train(c, t) for (c, t) in schedule]
-    av = Train.run_schedule(trainsList)
+    trains, av = optimize()
 
     # Writing the CSV of the schedule
-    write_csv(trainsList)
+    write_csv(trains)
 
     # For checking
     # print(av)
@@ -136,4 +157,3 @@ for i, perm in enumerate(perms):
 x = makeSchedule()
 print("Please refer to the output.csv file for the complete train schedule. The average waiting time is", str(x) +
       " Minutes for each person! Unbelievable!")
-

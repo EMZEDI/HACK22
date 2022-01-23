@@ -1,4 +1,3 @@
-import copy
 import csv
 import datetime
 
@@ -37,7 +36,7 @@ class Station:
 class Train:
 
     stations = Station.initialise_stations()  # A list of stations
-    optimize_copy = copy.deepcopy(stations)  # A cloned list that can be manipulated without affecting the original
+    optimize_copy = Station.initialise_stations()  # A list that can be manipulated without affecting the original
     total_waiting_time = 0  # The total time spent waiting for all passengers
     total_passengers_collected = 0  # The total amount of people that took the train
 
