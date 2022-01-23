@@ -129,9 +129,7 @@ dmypy.json
 .pyre/
 
 # Other
-output.csv
-
 /Jwork/bin/
 /Jwork/target/
-
+.DS_STORE
 .idea/
