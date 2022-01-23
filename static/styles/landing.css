@@ -137,8 +137,8 @@ h1 {
     margin: 60px;
     padding: 20px 2px;
     text-decoration: none;
-    background: rgb(57, 43, 64);
-    color: white;
+    color: rgb(189, 183, 176);
+    background: rgb(56, 91, 124);
     text-align: center;
     width: 250px;
     border-radius: 30px;
@@ -150,5 +150,9 @@ h1 {
 
 #download-button:hover {
     scale: 1.05;
-    background: rgb(80, 59, 90);
+    background: rgb(67, 107, 145);
+}
+
+#visualisation {
+    margin-top: 20px;
 }
