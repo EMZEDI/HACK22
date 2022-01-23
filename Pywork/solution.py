@@ -6,6 +6,7 @@ from structure import Train, csv
 they will enounter the most number of people. Encounter is defined as people who arrived at the station in the two most
 recent arrival time intervals'''
 
+
 def optimize():
     # list of all possible train departure times
     availableTimes = [minute for minute in range(0, 178)]  # this is in minutes
@@ -56,6 +57,7 @@ def optimize():
     # returns the list of constructor parameters for all 16 trains
     return trainSchedule
 
+
 # Function to write the CSV information for the given schedule
 def write_csv(trains: list) -> None:
     with open("output.csv", "w", newline="") as output:
@@ -81,6 +83,7 @@ def write_csv(trains: list) -> None:
         for i, train in enumerate(trains):
             writer.writerow([i + 1] + train.details)
 
+
 # function that outputs the csv file
 def makeSchedule():
     schedule = optimize()
@@ -96,7 +99,7 @@ def makeSchedule():
     return av
 
 
-#PRELIMINATRY CODE TO RUN EVERY PERMUTATION OF THE TRAIN LIST, AND CALCULATE THE AVERAGE WAIT TIME FOR THAT
+# PRELIMINATRY CODE TO RUN EVERY PERMUTATION OF THE TRAIN LIST, AND CALCULATE THE AVERAGE WAIT TIME FOR THAT
 
 """
 # The following is a brute force way to find the best permutation of trains, given that they depart
@@ -129,4 +132,5 @@ for i, perm in enumerate(perms):
 """
 
 x = makeSchedule()
-print("Please refer to the output.csv file for the complete train schedule. The average waiting time is", x, "s")
+print("Please refer to the output.csv file for the complete train schedule. The average waiting time is", str(x) +
+      " Minutes for each person! Unbelievable!")
