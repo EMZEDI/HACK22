@@ -13,7 +13,7 @@ In this repository you can find:<br>
 and hop in the pysrc directory.<b> If you are on Windows, you have to change the '-'s to '#s' in the structure.py file lines 58 and 109.</b> run <b>solution.py</b>using <code>python3 HACK22/solution.py</code> in the Pywork directory using terminal(You can see the average wait time as the output). 
 Afterwards, you have to refer to the <b>output.csv</b> file (placed in the same directory) to see the most optimal schedule.
 
-2- To check the <b>visualization</b> part of the project make sure you have the <b>csv</b> file outputted from the python app. You have to run the 
+2- To check the <b>visualization</b> part of the project make sure you have the <b>csv</b> file outputted from the python app. In Eclipse IDE you have to import the Jwork directory into your workspace, and make sure to uncheck the copy project to workspace. You have to run the 
 <b>MainFrame</b> file which is inside the <b>/Jwork/src/application</b> folder (You have to have java virtual machine associated with the Jwork directory) and run the application to see the animation!
 
 3- To see the whole overview of the website built you can go to the main direcotry terminal and download django using <code> python3 -m pip install Django </code><br>.
