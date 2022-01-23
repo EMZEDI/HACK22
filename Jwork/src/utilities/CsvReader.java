@@ -9,8 +9,8 @@ import components.Train;
 
 public abstract class CsvReader {
 	
-	private static final String SCHEDULE_FILE_NAME = "results.csv";
-	private static final String SCHEDULE_FILE_PATH = "../" + SCHEDULE_FILE_NAME;
+	private static final String SCHEDULE_FILE_NAME = "output.csv";
+	private static final String SCHEDULE_FILE_PATH = "../static/optimized/" + SCHEDULE_FILE_NAME;
 	private static final String PASSENGERS_FILE_NAME = "passengerArrivals.csv";
 	private static final String PASSENGERS_FILE_PATH = PASSENGERS_FILE_NAME;
 	private static final int NUMBER_OF_TRAINS = 16;
