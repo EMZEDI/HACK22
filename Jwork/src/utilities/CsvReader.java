@@ -26,47 +26,49 @@ public abstract class CsvReader {
 			scan.nextLine();
 	        int counter = 0;
 	        while (scan.hasNextLine()) {
-	            counter++;
 	            String line = scan.nextLine();
-	            LineReader lineReader = new LineReader(line);
-	            
-	            int number = 0;
-	            try {
-	            	number = Integer.parseInt(lineReader.nextField());
-	            } catch (NumberFormatException e) {
-	            	throwFormatError(SCHEDULE_FILE_NAME);
-	            }
-	            
-	            Train.Type type = null;
-	            switch (lineReader.nextField()) {
-	            	case "L4":
-	            		type = Train.Type.L4;
-	            		break;
-	            	case "L8":
-	            		type = Train.Type.L8;
-	            		break;
-	            	default:
-	            		throwFormatError(SCHEDULE_FILE_NAME);	
-	            }
-	            
-	            int AArrivalTime = convertToMinutes(lineReader.nextField(), SCHEDULE_FILE_NAME);
-	            
-	            lineReader.nextField();
-	            lineReader.nextField();
-	            
-	            int BArrivalTime = convertToMinutes(lineReader.nextField(), SCHEDULE_FILE_NAME);
-	            
-	            lineReader.nextField();
-	            lineReader.nextField();
-	            
-	            int CArrivalTime = convertToMinutes(lineReader.nextField(), SCHEDULE_FILE_NAME);
-	            
-	            lineReader.nextField();
-	            lineReader.nextField();
-	            
-	            int UnionArrivalTime = convertToMinutes(lineReader.nextField(), SCHEDULE_FILE_NAME);
-	            
-	            trains.add(new Train(number, type, AArrivalTime, BArrivalTime, CArrivalTime, UnionArrivalTime));
+	        	if (!line.isBlank()) {
+	        		counter++;
+		            LineReader lineReader = new LineReader(line);
+		            
+		            int number = 0;
+		            try {
+		            	number = Integer.parseInt(lineReader.nextField());
+		            } catch (NumberFormatException e) {
+		            	throwFormatError(SCHEDULE_FILE_NAME);
+		            }
+		            
+		            Train.Type type = null;
+		            switch (lineReader.nextField()) {
+		            	case "L4":
+		            		type = Train.Type.L4;
+		            		break;
+		            	case "L8":
+		            		type = Train.Type.L8;
+		            		break;
+		            	default:
+		            		throwFormatError(SCHEDULE_FILE_NAME);	
+		            }
+		            
+		            int AArrivalTime = convertToMinutes(lineReader.nextField(), SCHEDULE_FILE_NAME);
+		            
+		            lineReader.nextField();
+		            lineReader.nextField();
+		            
+		            int BArrivalTime = convertToMinutes(lineReader.nextField(), SCHEDULE_FILE_NAME);
+		            
+		            lineReader.nextField();
+		            lineReader.nextField();
+		            
+		            int CArrivalTime = convertToMinutes(lineReader.nextField(), SCHEDULE_FILE_NAME);
+		            
+		            lineReader.nextField();
+		            lineReader.nextField();
+		            
+		            int UnionArrivalTime = convertToMinutes(lineReader.nextField(), SCHEDULE_FILE_NAME);
+		            
+		            trains.add(new Train(number, type, AArrivalTime, BArrivalTime, CArrivalTime, UnionArrivalTime));
+	        	}
 	        }
 	        if (counter != NUMBER_OF_TRAINS) {
 	        	throw new FileReadingException(	"There are " + counter + " train schedules in the file " + SCHEDULE_FILE_NAME + ".\n" +

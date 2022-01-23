@@ -88,6 +88,7 @@ public class MainFrame extends JFrame {
 	private static final int TOP_HEIGHT = 120;
 	private static final int BUTTON_WIDTH = 150;
 	private static final int BUTTON_HEIGHT = 30;
+	private static final int NUMBER_OF_SPEEDS = 5;
 	
 
 	/**
@@ -136,7 +137,7 @@ public class MainFrame extends JFrame {
 			}
 		});
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setBackground(new Color(240, 240, 240));
+		contentPane.setBackground(new Color(243, 243, 240));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
@@ -151,7 +152,7 @@ public class MainFrame extends JFrame {
 		contentPane.add(pnlTop);
 		
 		lblTitle = new JLabel("Visualization of Train Schedule");
-		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setSize(350, 40);
 		pnlTop.add(lblTitle);
@@ -169,7 +170,13 @@ public class MainFrame extends JFrame {
 		btnStart = new JButton("START");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				animation.start();
+				if (btnStart.getText().equals("START")) {
+					animation.start();
+					btnStart.setText("PAUSE");
+				} else {
+					animation.stop();
+					btnStart.setText("START");
+				}
 			}
 		});
 		btnStart.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -193,22 +200,21 @@ public class MainFrame extends JFrame {
 		pnlSpeed.add(lblSpeed);
 		
 		sldrSpeed = new JSlider();
-		int min = Animation.getMinimumFramesPerMinute();
-		int max = Animation.getMaximumFramesPerMinute();
-		sldrSpeed.setMaximum(max);
-		sldrSpeed.setMinimum(min);
-		sldrSpeed.setValue((min + max)/2);
+		sldrSpeed.setMaximum(NUMBER_OF_SPEEDS);
+		sldrSpeed.setMinimum(1);
+		sldrSpeed.setValue(NUMBER_OF_SPEEDS/2 + 1);
 		sldrSpeed.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				if (!sldrSpeed.getValueIsAdjusting()) {
-					animation.setFramesPerMinute(sldrSpeed.getValue());
+					animation.setSpeed(NUMBER_OF_SPEEDS - sldrSpeed.getValue());
 				}
 			}
 		});
 		sldrSpeed.setSnapToTicks(true);
 		sldrSpeed.setPaintTicks(true);
-		sldrSpeed.setMajorTickSpacing((max - min)/4);
+		sldrSpeed.setMajorTickSpacing(1);
 		sldrSpeed.setSize(300, 40);
 		pnlSpeed.add(sldrSpeed);
+		animation.setSpeed(NUMBER_OF_SPEEDS - sldrSpeed.getValue());
 	}
 }

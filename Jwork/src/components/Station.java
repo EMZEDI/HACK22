@@ -83,12 +83,24 @@ public class Station implements Drawable {
 		waitingPassengers.clear();
 	}
 
+	public double getX() {
+		return x;
+	}
+
 	public void setX(double x) {
 		this.x = x;
 	}
 
+	public double getY() {
+		return y;
+	}
+
 	public void setY(double y) {
 		this.y = y;
+	}
+	
+	public int getNumberOfWaitingPassengers() {
+		return waitingPassengers.size();
 	}
 
 }

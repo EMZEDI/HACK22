@@ -2,11 +2,11 @@ package components;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D.Double;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -21,26 +21,33 @@ public class Animation extends JPanel implements Runnable {
 	
 	private boolean animationRunning = false;
 	private int currentTime = 0;
+	private double averageWaitingTime = 0;
+	private int framesPerMinute;
 	private int frame = 0;
 	
 	private final double MARGIN = 10;
 	private final double TRAIN_STATION_SPACING = 10;
 	private final double STATION_WIDTH = 100;
 	private final double STATION_HEIGHT = 60;
-	private final double TRAIN_WIDTH = 100;
-	private final double TRAIN_HEIGHT = 60;
+	private final double TRAIN_WIDTH = 60;
+	private final double TRAIN_HEIGHT = 50;
 	private final int TABLE_HEIGHT = 50;
-	private final long SLEEP_TIME = 50;
+	private final Font FONT = new Font("Tahoma", Font.PLAIN, 18);
 	
-	private static final int MINIMUM_FRAMES_PER_MINUTE = 30;
-	private static final int MAXIMUM_FRAMES_PER_MINUTE = 200;
-	private int framesPerMinute = (MINIMUM_FRAMES_PER_MINUTE + MAXIMUM_FRAMES_PER_MINUTE)/2;
+	private final long SLEEP_TIME = 20;
+	private final int MINIMUM_FRAMES_PER_MINUTE = 5;
+	private final int FRAME_MULTIPLICATION_FACTOR = 2;
+	private final int MAX_TIME = 217;
+	
+	private final double A_TO_B = 8, B_TO_C = 9, C_TO_UNION = 11;
+	private final double B_PROPORTION = A_TO_B / (A_TO_B + B_TO_C + C_TO_UNION);
+	private final double C_PROPORTION = (A_TO_B + B_TO_C) / (A_TO_B + B_TO_C + C_TO_UNION);
 	
 	public Animation(ArrayList<Train> trains, ArrayList<int[]> passengerArrivals) {
 		setBackground(Color.white);
 		stationA = new Station("STATION A", passengerArrivals.get(0), STATION_WIDTH, STATION_HEIGHT);
-		stationC = new Station("STATION B", passengerArrivals.get(1), STATION_WIDTH, STATION_HEIGHT);
-		stationB = new Station("STATION C", passengerArrivals.get(2), STATION_WIDTH, STATION_HEIGHT);
+		stationB = new Station("STATION B", passengerArrivals.get(1), STATION_WIDTH, STATION_HEIGHT);
+		stationC = new Station("STATION C", passengerArrivals.get(2), STATION_WIDTH, STATION_HEIGHT);
 		stationUnion = new Station("STATION\nUNION", new int[0], STATION_WIDTH, STATION_HEIGHT);
 		this.trains = trains;
 		for (Train train : trains) {
@@ -59,12 +66,23 @@ public class Animation extends JPanel implements Runnable {
 		drawStations(g2d);
 		drawTrack(g2d);
 		drawTrains(g2d);
+		writeTimes(g2d);
 	}
 
 	@Override
 	public void run() {
-		while(animationRunning) {
-			
+		updateStations();
+		while(animationRunning && currentTime < MAX_TIME) {
+			frame++;
+			updateTrainPositions();
+			if (frame == framesPerMinute) {
+				frame = 0;
+				currentTime++;
+				waitOneMinute();
+				updateStations();
+				fillTrains();
+				calculateAverageWaitingTime();
+			}
 			repaint();
 			try {
 				Thread.sleep(SLEEP_TIME);
@@ -72,11 +90,12 @@ public class Animation extends JPanel implements Runnable {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("Animation stopped");
 	}
-	
-	public void setFramesPerMinute(int framesPerMinute) {
-		this.framesPerMinute = framesPerMinute;
+
+	public void setSpeed(int speed) {
+		double ratio = (double) frame/framesPerMinute;
+		framesPerMinute = (int) (MINIMUM_FRAMES_PER_MINUTE * Math.pow(FRAME_MULTIPLICATION_FACTOR,speed));
+		frame = (int) (framesPerMinute * ratio);
 	}
 	public void start() {
 		if (!animationRunning) { 
@@ -93,6 +112,7 @@ public class Animation extends JPanel implements Runnable {
 	public void reset() {
 		stop();
 		currentTime = 0;
+		averageWaitingTime = 0;
 		frame = 0;
 		stationA.reset();
 		stationB.reset();
@@ -106,15 +126,14 @@ public class Animation extends JPanel implements Runnable {
 	}
 
 	private void drawStations(Graphics2D g2d) {
-		double space = (getWidth() - MARGIN*2 - STATION_WIDTH*4) / 3; 
 		double y = getHeight() - STATION_HEIGHT - MARGIN;
 		stationA.setX(MARGIN);
 		stationA.setY(y);
-		stationB.setX(MARGIN + STATION_WIDTH + space);
+		stationB.setX(MARGIN + (getWidth() - MARGIN * 2 - STATION_WIDTH) * B_PROPORTION);
 		stationB.setY(y);
-		stationC.setX(MARGIN + (STATION_WIDTH + space) * 2);
+		stationC.setX(MARGIN + (getWidth() - MARGIN * 2 - STATION_WIDTH) * C_PROPORTION);
 		stationC.setY(y);
-		stationUnion.setX(MARGIN + (STATION_WIDTH + space) * 3);
+		stationUnion.setX(MARGIN + getWidth() - MARGIN * 2 - STATION_WIDTH);
 		stationUnion.setY(y);
 		stationA.draw(g2d);
 		stationB.draw(g2d);
@@ -128,15 +147,106 @@ public class Animation extends JPanel implements Runnable {
 	}
 
 	private void drawTrains(Graphics2D g2d) {
-		
+		for (Train train : trains) {
+			double proportionTravelled = train.getProportionTravelled();
+			if (proportionTravelled > -1 && proportionTravelled < 1) {
+				train.setX(stationA.getX() + STATION_WIDTH/2 - TRAIN_WIDTH/2 + (stationUnion.getX() - stationA.getX()) * proportionTravelled);
+				train.setY(getHeight() - MARGIN - STATION_HEIGHT - TRAIN_STATION_SPACING - TRAIN_HEIGHT);
+				train.draw(g2d);
+			}
+		}
 	}
 
-	public static int getMinimumFramesPerMinute() {
-		return MINIMUM_FRAMES_PER_MINUTE;
+	private void writeTimes(Graphics2D g2d) {
+		String currentTime = "Current Time: " + timeToString(this.currentTime);
+		String averageWainting = "Average Waiting Time: " + Math.round(averageWaitingTime * 100) / 100.0;
+		g2d.setFont(FONT);
+		g2d.drawString(currentTime,  (float) (getWidth()/4 - g2d.getFontMetrics().stringWidth(currentTime)/2), (float) (MARGIN + FONT.getSize()*1.5));
+		g2d.drawString(averageWainting,  (float) (getWidth()*3/4 - g2d.getFontMetrics().stringWidth(averageWainting)/2), (float) (MARGIN + FONT.getSize()*1.5));
+	}
+	
+	private void calculateAverageWaitingTime() {
+		averageWaitingTime = 0;
+		if (!allPassengers.isEmpty()) {
+			for (Passenger passenger : allPassengers) {
+				averageWaitingTime += passenger.getWaitingTime();
+			}
+			averageWaitingTime /= allPassengers.size();
+		}
+	}
+	
+	private void waitOneMinute() {
+		stationA.waitOneMinute();
+		stationB.waitOneMinute();
+		stationC.waitOneMinute();
+	}
+	
+	private void updateStations() {
+		if (currentTime <= 3 * 60) {
+			stationA.addPassengers(currentTime, allPassengers);
+			stationB.addPassengers(currentTime, allPassengers);
+			stationC.addPassengers(currentTime, allPassengers);
+		}
 	}
 
-	public static int getMaximumFramesPerMinute() {
-		return MAXIMUM_FRAMES_PER_MINUTE;
+	private void updateTrainPositions() {
+		for (Train train : trains) {
+			train.updatePosition(currentTime + (double) frame/framesPerMinute);
+		}
+	}
+	
+	private void fillTrains() {
+		for (Train train : trains) {
+			Station station = null;
+			boolean fillTrain;
+			switch (train.getCurrentStation()) {
+				case A:
+					station = stationA;
+					fillTrain = true;
+					break;
+				case B:
+					station = stationB;
+					fillTrain = true;
+					break;
+				case C:
+					station = stationC;
+					fillTrain = true;
+					break;
+				default:
+					fillTrain = false;
+					break;
+			}
+			if (fillTrain) {
+				int waitingPassengers = station.getNumberOfWaitingPassengers();
+				int availableSpace = train.getAvailableSpace();
+				if (waitingPassengers != 0 && availableSpace != 0) {
+					if (waitingPassengers < availableSpace) {
+						station.removePassengers(waitingPassengers);
+						train.addPassengers(waitingPassengers);
+					} else {
+						station.removePassengers(availableSpace);
+						train.addPassengers(availableSpace);
+					}
+				}
+			}
+		}
+	}
+	
+	private String timeToString(int currentTime) {
+		int heures = 7 + this.currentTime/60;
+		int minutes = this.currentTime%60;
+		String strHeures, strMinutes;
+		if (heures >= 10) {
+			strHeures = "" + heures;
+		} else {
+			strHeures = "0" + heures;
+		}
+		if (minutes >= 10) {
+			strMinutes = "" + minutes;
+		} else {
+			strMinutes = "0" + minutes;
+		}
+		return strHeures + ":" + strMinutes;
 	}
 
 }
