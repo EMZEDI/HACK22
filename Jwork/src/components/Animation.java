@@ -175,8 +175,9 @@ public class Animation extends JPanel implements Runnable {
 	}
 
 	private void writeTimes(Graphics2D g2d) {
-		String currentTime = "Current Time: " + timeToString(this.currentTime);
-		String averageWainting = "Average Waiting Time: " + Math.round(averageWaitingTime * 100) / 100.0;
+		String currentTime = "Current Time: " + timeToString(this.currentTime) + " AM";
+		String averageWainting = String.format("Average Waiting Time: %d:%02d",  (int) Math.floor(averageWaitingTime),
+				(int) Math.floor(60 * (averageWaitingTime - Math.floor(averageWaitingTime))));
 		g2d.setFont(FONT);
 		g2d.drawString(currentTime,  (float) (getWidth()/4 - g2d.getFontMetrics().stringWidth(currentTime)/2), (float) (spacing + FONT.getSize()*1.5));
 		g2d.drawString(averageWainting,  (float) (getWidth()*3/4 - g2d.getFontMetrics().stringWidth(averageWainting)/2), (float) (spacing + FONT.getSize()*1.5));

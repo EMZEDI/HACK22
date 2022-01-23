@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <link rel="icon" href="{% static 'images/favicon.png' %}"/>
+    <link rel="stylesheet" href="{% static 'styles/landing.css' %}"/>
+    <meta charset="UTF-8">
+    <title>McHacks Transport</title>
+</head>
+<body>
+
+    <div id="title">
+        <img src="{% static 'images/mchacks.png' %}" alt="mchacks logo" class="mchacks">
+        <h1 style="border-bottom: 2px solid rgb(189, 183, 176); padding-bottom: 10px">McHacks Transport</h1>
+        <img src="{% static 'images/mchacks.png' %}" alt="mchacks logo" class="mchacks">
+    </div>
+
+    <div id="main-content">
+        
+        <p style="text-align:center; line-height:2; letter-spacing:2px">Let's face it, who actually likes waiting for transit. Nothing beats a train that arrives on time and leaves on time. The following schedule presents the solution we found for RailVision's 2022 McHacks challenge. It yields an impressive {{ min_wait }} average wait time for passangers, allowing everyone to be happy!</p>
+
+        <a id="download-button" href="{% static 'optimized/output.csv' %}" dowload>DOWNLOAD THE OUTPUT CSV</a>
+
+        <div id="mtl-info">
+            <div id="city-time" style="font-family: CircularStd-Bold">
+                <h2 id="city" style="margin:0px"></h2>
+                <h3 id="clock" style="margin:0px"></h3>
+            </div>
+            <div style="display:flex; flex-drection:row; justify-content:flex-end; align-items:flex-end;">
+                <div id="conditions">
+                    <h3 id="temp" style="margin:0px; font-family:CircularStd-Bold;"></h3>
+                    <p id="wdesc" style="margin:0px"></p>
+                </div>
+                <img onload="this.style.opacity=1;" id="weather-icon" src="" alt="icon for weather" style="opacity:0;height: 50px;">
+            </div>
+        </div>
+
+        <table id="schedule" style="border-spacing: 0px;">
+            <thead>
+                <th>Train</th>
+                <th>Type</th>
+                <th>Station A -  Arrival</th>
+                <th>Station B -  Arrival</th>
+                <th>Station B -  Arrival</th>
+                <th>Union Station - Arrival</th>
+            </thead>
+
+            <tbody>
+                {% for train in trains %}
+                <tr class="train">
+                    <td>{{ train.0 }}</td>
+                    <td>{{ train.1 }}</td>
+                    <td>{{ train.2 }}</td>
+                    <td>{{ train.3 }}</td>
+                    <td>{{ train.4 }}</td>
+                    <td>{{ train.5 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <h2 style="margin-top: 100px; letter-spacing:2px;">Schedule Visualisation</h2>
+
+        <video width="1000px" id="visualisation" controls>
+            <source src="{% static 'videos/S3.mov' %}" type-"video/mp4">
+        </video>
+        
+
+    </div>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(function() {
+        $(window).on("scroll", function() {
+            if($(window).scrollTop() > 50) {
+                $("#title").addClass("active");
+                $("#title").addClass("active:hover");
+            } else {
+               $("#title").removeClass("active");
+               $("#title").removeClass("activeHover");
+            }
+        });
+    });
+    
+    $(function(){
+        $(this).scrollTop(0);
+    });
+
+    function time() {
+        const today = new Date();
+        let h = today.getHours();
+        let m = today.getMinutes();
+        m = checkTime(m);
+
+        document.getElementById('clock').innerHTML =  `${((h % 12 == 0) ? 12 : h % 12)}:${m} ${(Math.floor(h / 12) == 0) ? "AM" : "PM"}`;
+        setTimeout(time, 1000);
+    }
+    
+    $(time);
+
+    function checkTime(i) {
+        if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+        return i;
+    }
+    
+    $(function() {
+        $.get('https://api.openweathermap.org/data/2.5/weather?q=montreal&appid=78d8695f380dbff25f04969daa9933f5&units=metric', function(data, status) {
+            $('#weather-icon').attr('src', `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`);
+            $('#temp').text(`${Math.round(data.main.temp)} °C`);
+            $('#wdesc').text(data.weather[0].description);
+            $('#city').text(data.name);
+        });
+    });
+
+</script>
+</html>

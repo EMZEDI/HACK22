@@ -1,0 +1,158 @@
+@font-face {
+    font-family: CircularStd-Book;
+    src: url(../fonts/CircularStd-Book.otf);
+}
+
+@font-face {
+    font-family: CircularStd-Bold;
+    src: url(../fonts/CircularStd-Bold.otf);
+}
+
+@font-face {
+    font-family: CircularStd-Black;
+    src: url(../fonts/CircularStd-Black.otf);
+}
+
+@font-face {
+    font-family: LedCounter;
+    src: url(../fonts/led_counter-7.ttf);
+}
+
+html {
+    background: rgb(26, 28, 29);
+    color: rgb(189, 183, 176);
+    font-family: CircularStd-Book;
+}
+
+body {
+    
+}
+
+h1 {
+    font-family: CircularStd-Black;
+}
+
+.mchacks {
+    width: 50px;
+}
+
+#title {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+    height: 100px;
+    background: transparent;
+    -o-transition: 0.3s background;
+    -webkit-transition: 0.3s background;
+    -moz-transition: 0.3s background;
+    transition: 0.3s background;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+#title.active {
+    background: rgba(0, 0, 0, 0.75);
+}
+
+#title:hover {
+    background: rgba(0, 0, 0, 0.75);
+}
+
+#title.active:hover {
+    background-color: rgba(0, 0, 0, 0.85);
+}
+
+#main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+    padding-top: 50px;
+    margin-bottom: 50px;
+    padding: 50px 60px;
+}
+
+#schedule {
+    background: rgba(0, 0, 0, 0.15);
+    padding: 50px;
+    font-family: CircularStd-Bold;
+}
+
+#schedule th {
+    font-family: LedCounter;
+    color: #efbb25;
+    padding: 0px 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid white;
+}
+
+.train {
+    text-align: center;
+    height: 50px;
+}
+
+#schedule tbody tr {
+    -o-transition: 0.3s all;
+    -webkit-transition: 0.3s all;
+    -moz-transition: 0.3s all;
+    transition: 0.3s all;
+}
+
+#schedule tbody tr:nth-child(even) {
+    background: white;
+    color: rgb(26, 28, 29);
+}
+
+#schedule tbody tr:hover {
+    -webkit-transform: scale(1.01);
+    -moz-transform: scale(1.01);
+    -o-transform: scale(1.01);
+    transform: scale(1.01);
+}
+
+#mtl-info {
+    height: 100px;
+    padding: 10px 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 20px;
+    width: 100%;
+}
+
+#conditions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+#download-button {
+    margin: 60px;
+    padding: 20px 2px;
+    text-decoration: none;
+    color: rgb(189, 183, 176);
+    background: rgb(56, 91, 124);
+    text-align: center;
+    width: 250px;
+    border-radius: 30px;
+    font-size: 10pt;
+    transition: 0.2s;
+    letter-spacing: 1px;
+    font-family: CircularStd-Bold;
+}
+
+#download-button:hover {
+    scale: 1.05;
+    background: rgb(67, 107, 145);
+}
+
+#visualisation {
+    margin-top: 20px;
+}
