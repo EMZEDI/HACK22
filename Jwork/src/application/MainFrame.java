@@ -150,7 +150,7 @@ public class MainFrame extends JFrame {
 		pnlTop.setLayout(null);
 		contentPane.add(pnlTop);
 		
-		lblTitle = new JLabel("Vizualisation of Train Schedule");
+		lblTitle = new JLabel("Visualization of Train Schedule");
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setSize(350, 40);
