@@ -37,7 +37,8 @@ class Train:
 
     def __init__(self, capacity: int, current_time: int) -> None:
         self.capacity = capacity  # The capacity of the train
-        self.remaining = capacity  # Seats remaining on the train
+        self.remaining = capacity
+        # Seats remaining on the train
         self.current_time = current_time  # The current time, represented as minutes after 7 AM
         self.details = ["L4" if capacity == 200 else "L8"]  # CSV details for the train
 
@@ -49,7 +50,7 @@ class Train:
 
             # Appending station's arrival time
             self.details.append((datetime.datetime(2000, 1, 1, 7, 0)
-                                 + datetime.timedelta(minutes=self.current_time)).strftime("%-I:%M"))
+                                 + datetime.timedelta(minutes=self.current_time)).strftime("%#I:%M"))
 
             # Appending available capacity
             self.details.append(self.remaining)
@@ -100,7 +101,7 @@ class Train:
 
         # Appending Union Station's arrival time, available capacity, and offloaded amount
         self.details.append((datetime.datetime(2000, 1, 1, 7, 0)
-                             + datetime.timedelta(minutes=self.current_time)).strftime("%-I:%M"))
+                             + datetime.timedelta(minutes=self.current_time)).strftime("%#I:%M"))
         self.details.append(self.remaining)
         self.details.append(self.capacity - self.remaining)
 
@@ -128,3 +129,41 @@ class Train:
             self.current_time += station.time_to_next
 
         return passengers_encountered
+
+    def run_train_omptimize(self) -> None:
+        passengers_taken: int = 0
+
+        for station in Train.stations:
+            # check for when time exceed 180
+            if self.remaining ==0:
+                break
+
+            if self.current_time > 180:
+                self.current_time = 180
+
+            # check for when the time is below 10 minutes
+            if self.current_time // 10 == 0:
+                passengers_taken += station.passengers[0]
+                station.passengers[0] = 0
+                self.remaining -= passengers_taken
+
+
+            # no more edge cases: what to do
+
+            else:
+                for i in range((self.current_time // 10) - 1, (self.current_time // 10) + 1):
+                    # if there is no space for everyone
+
+                    if self.remaining - station.passengers[i] < 0 :
+                        # Taking as many as we can
+                        station.passengers[i] -= self.remaining
+                        passengers_taken += self.remaining
+                        self.remaining = 0
+                    # otherwise there is space
+                    else:
+                        passengers_taken += station.passengers[i]
+                        self.remaining -= station.passengers[i]
+                        station.passengers[i] = 0
+
+
+            self.current_time += station.time_to_next
