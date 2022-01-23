@@ -7,8 +7,8 @@ In this repository you can find:<br>
 - ☺️ The source code/directories for our website made up using <b>Django, HTML and CSS + using a .tech domain and google cloud! </b>
 ---
 # To run the files:
-1- To run the <b>python</b> file associated with the algorithm and see the csv file as an output, Make sure you have python installed
-and hop in the pysrc directory.<b> If you are on Windows, you have to change the '-'s to '#s' in the structure.py file lines 58 and 109.</b> run <b>solution.py</b> in the Pywork directory (You can see the average wait time as the output). 
+1- To run the <b>python</b> file associated with the algorithm and see the csv file as an output, Make sure you have python3 installed
+and hop in the pysrc directory.<b> If you are on Windows, you have to change the '-'s to '#s' in the structure.py file lines 58 and 109.</b> run <b>solution.py</b>using <code>python3 HACK22/solution.py</code> in the Pywork directory using terminal(You can see the average wait time as the output). 
 Afterwards, you have to refer to the <b>output.csv</b> file (placed in the same directory) to see the most optimal schedule.
 
 2- To check the <b>visualization</b> part of the project make sure you have the <b>csv</b> file outputted from the python app. You have to run the 
