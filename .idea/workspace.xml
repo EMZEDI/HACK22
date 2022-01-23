@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ac1b28e2-70ee-4ee4-b8f6-005706a18df6" name="Changes" comment="The only remaining thing is assigning each train the best minute!!!!" />
+    <list default="true" id="ac1b28e2-70ee-4ee4-b8f6-005706a18df6" name="Changes" comment="shidan to debug + muhammad checks the web stuff">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pywork/MentorS.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pywork/MentorS.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pywork/solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pywork/solution.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pywork/structure.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pywork/structure.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,6 +17,8 @@
       <list>
         <option value="Jupyter Notebook" />
         <option value="Python Script" />
+        <option value="HTML File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -37,13 +44,16 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="add_unversioned_files" value="$PROJECT_DIR$/Pywork/output.csv" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.solution">
     <configuration name="MentorS" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="HACK22" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -66,8 +76,31 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="solution" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="HACK22" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Pywork" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Pywork/solution.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.solution" />
         <item itemvalue="Python.MentorS" />
       </list>
     </recent_temporary>
@@ -80,7 +113,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1642858838604</updated>
-      <workItem from="1642858841962" duration="18090000" />
+      <workItem from="1642858841962" duration="35374000" />
     </task>
     <task id="LOCAL-00001" summary="Changed the directories and created a directory for the java project.">
       <created>1642858910456</created>
@@ -103,7 +136,35 @@
       <option name="project" value="LOCAL" />
       <updated>1642886831672</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="The only remaining thing is assigning each train the best minute!!!!">
+      <created>1642887636545</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1642887636545</updated>
+    </task>
+    <task id="LOCAL-00005" summary="The only remaining thing is assigning each train the best minute!!!!">
+      <created>1642888676032</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1642888676032</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Shidan to finish">
+      <created>1642889750960</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1642889750960</updated>
+    </task>
+    <task id="LOCAL-00007" summary="shidan to debug + muhammad checks the web stuff">
+      <created>1642894294538</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1642894294538</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -114,7 +175,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -123,9 +196,12 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Changed the directories and created a directory for the java project." />
     <MESSAGE value="The only remaining thing is assigning each train the best minute!!!!" />
-    <option name="LAST_COMMIT_MESSAGE" value="The only remaining thing is assigning each train the best minute!!!!" />
+    <MESSAGE value="Shidan to finish" />
+    <MESSAGE value="shidan to debug + muhammad checks the web stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="shidan to debug + muhammad checks the web stuff" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/HACK22$MentorS.coverage" NAME="MentorS Coverage Results" MODIFIED="1642886434513" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Pywork" />
+    <SUITE FILE_PATH="coverage/HACK22$MentorS.coverage" NAME="MentorS Coverage Results" MODIFIED="1642902520599" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Pywork" />
+    <SUITE FILE_PATH="coverage/HACK22$solution.coverage" NAME="solution Coverage Results" MODIFIED="1642906379775" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Pywork" />
   </component>
 </project>
