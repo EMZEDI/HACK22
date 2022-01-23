@@ -1,3 +1,4 @@
+import copy
 import csv
 import datetime
 
@@ -31,7 +32,8 @@ class Station:
 
 
 class Train:
-    stations = Station.initialise_stations()  # A list of stations
+    stations = Station.initialise_stations() # A list of stations
+    optimize_copy = copy.deepcopy(stations)
     total_waiting_time = 0  # The total time spent waiting for all passengers
     total_passengers_collected = 0  # The total amount of people that took the train
 
@@ -44,6 +46,7 @@ class Train:
 
     # Runs a train based on its scheduled start time and capacity
     def run_train(self) -> None:
+
 
         # Iterating through the stations
         for station in Train.stations:
@@ -116,7 +119,7 @@ class Train:
     def encounter(self):
         # mirror the run train function but only on self - calculates the number of encounter
         passengers_encountered: int = 0
-        for station in Train.stations:
+        for station in Train.optimize_copy:
             if self.current_time // 10 == 0:
                 passengers_encountered += station.passengers[0]
 
@@ -130,10 +133,11 @@ class Train:
 
         return passengers_encountered
 
-    def run_train_omptimize(self) -> None:
+    def run_train_optimize(self) -> None:
+
         passengers_taken: int = 0
 
-        for station in Train.stations:
+        for station in Train.optimize_copy:
             # check for when time exceed 180
             if self.remaining ==0:
                 break
