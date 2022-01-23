@@ -100,7 +100,9 @@ public class MainFrame extends JFrame {
 			e.printStackTrace();
 		}
 		try {
-			MainFrame frame = new MainFrame(CsvReader.readCsvFile());
+			ArrayList<Train> trains = CsvReader.readScheduleFile();
+			ArrayList<int[]> passengerArrivals = CsvReader.readPassengersFile();
+			MainFrame frame = new MainFrame(trains, passengerArrivals);
 			frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -110,7 +112,7 @@ public class MainFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MainFrame(ArrayList<Train> trains) {
+	public MainFrame(ArrayList<Train> trains, ArrayList<int[]> passengerArrivals) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(screenSize.width/2 - WINDOW_WIDTH/2, screenSize.height/2 - WINDOW_HEIGHT/2, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -138,7 +140,7 @@ public class MainFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		animation = new Animation(trains);
+		animation = new Animation(trains, passengerArrivals);
 		animation.setLocation(MARGIN, MARGIN + TOP_HEIGHT);
 		contentPane.add(animation);
 		
@@ -148,7 +150,7 @@ public class MainFrame extends JFrame {
 		pnlTop.setLayout(null);
 		contentPane.add(pnlTop);
 		
-		lblTitle = new JLabel("Vizualisation of Train Schedule");
+		lblTitle = new JLabel("Visualization of Train Schedule");
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setSize(350, 40);
@@ -191,17 +193,21 @@ public class MainFrame extends JFrame {
 		pnlSpeed.add(lblSpeed);
 		
 		sldrSpeed = new JSlider();
+		int min = Animation.getMinimumFramesPerMinute();
+		int max = Animation.getMaximumFramesPerMinute();
+		sldrSpeed.setMaximum(max);
+		sldrSpeed.setMinimum(min);
+		sldrSpeed.setValue((min + max)/2);
 		sldrSpeed.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				if (!sldrSpeed.getValueIsAdjusting()) {
-					animation.setSpeed(sldrSpeed.getValue());
+					animation.setFramesPerMinute(sldrSpeed.getValue());
 				}
 			}
 		});
-		sldrSpeed.setMaximum(12);
 		sldrSpeed.setSnapToTicks(true);
 		sldrSpeed.setPaintTicks(true);
-		sldrSpeed.setMajorTickSpacing(3);
+		sldrSpeed.setMajorTickSpacing((max - min)/4);
 		sldrSpeed.setSize(300, 40);
 		pnlSpeed.add(sldrSpeed);
 	}

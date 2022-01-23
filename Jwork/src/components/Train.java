@@ -12,10 +12,10 @@ public class Train implements Drawable {
 
 	private int number;
 	private Type type;
-	int capacity;
-	int numberOfPassengers;
-	int AArrivalTime, BArrivalTime, CArrivalTime, UnionArrivalTime;
-	double x, y, width, height;
+	private int capacity;
+	private int numberOfPassengers;
+	private int AArrivalTime, BArrivalTime, CArrivalTime, UnionArrivalTime;
+	private double x, y, width, height;
 	
 	public Train(int number, Type type, int AArrivalTime, int BArrivalTime, int CArrivalTime, int UnionArrivalTime) {
 		this.number = number;
@@ -46,33 +46,21 @@ public class Train implements Drawable {
 	public void addPassengers(int numberOfPassengersToAdd) {
 		numberOfPassengers += numberOfPassengersToAdd;
 	}
-
-	public double getX() {
-		return x;
+	
+	public void reset() {
+		numberOfPassengers = 0;
 	}
 
 	public void setX(double x) {
 		this.x = x;
 	}
 
-	public double getY() {
-		return y;
-	}
-
 	public void setY(double y) {
 		this.y = y;
 	}
 
-	public double getWidth() {
-		return width;
-	}
-
 	public void setWidth(double width) {
 		this.width = width;
-	}
-
-	public double getHeight() {
-		return height;
 	}
 
 	public void setHeight(double height) {

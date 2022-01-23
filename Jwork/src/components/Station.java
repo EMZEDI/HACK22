@@ -1,6 +1,9 @@
 package components;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import utilities.Drawable;
 
@@ -9,14 +12,18 @@ public class Station implements Drawable {
 	private String name;
 	private int[] passengerArrivals;
 	private ArrayList<Passenger> waitingPassengers;
-	double x, y, width, height;
+	private double x, y, width, height;
 	
-	public Station(String name, int[] passengerArrivals, double x, double y, double width, double height) {
+	private final Color LIGHT_COLOR = new Color(222, 235, 247);
+	private final Color DARK_COLOR = new Color(157, 195, 230);
+	private final Font FONT = new Font("Tahoma", Font.PLAIN, 16);
+	
+	public Station(String name, int[] passengerArrivals, double width, double height) {
 		this.name = name;
 		this.passengerArrivals = passengerArrivals;
 		this.waitingPassengers = new ArrayList<Passenger>();
-		this.x = x;
-		this.y = y;
+		this.x = 0;
+		this.y = 0;
 		this.width = width;
 		this.height = height;
 	}
@@ -25,6 +32,28 @@ public class Station implements Drawable {
 	public void draw(Graphics2D g2d) {
 		Graphics2D g2dPrivate = (Graphics2D) g2d.create();
 		
+		Rectangle2D.Double rectangle = new Rectangle2D.Double(x, y, width, height);
+		if (passengerArrivals.length == 0) {
+			g2dPrivate.setColor(DARK_COLOR);
+		} else {
+			g2dPrivate.setColor(LIGHT_COLOR);
+		}
+		g2dPrivate.fill(rectangle);
+		
+		g2dPrivate.setColor(Color.black);
+		g2dPrivate.setFont(FONT);
+		if (name.contains("\n")) {
+			String firstPart = name.substring(0, name.indexOf("\n"));
+			String secondPart = name.substring(name.indexOf("\n"));
+			g2dPrivate.drawString(firstPart, (float) (x + width/2 - g2dPrivate.getFontMetrics().stringWidth(firstPart)/2), (float) (y + height/2 - FONT.getSize()*1/4));
+			g2dPrivate.drawString(secondPart, (float) (x + width/2 - g2dPrivate.getFontMetrics().stringWidth(secondPart)/2), (float) (y + height/2 + FONT.getSize()*5/4));
+		} else {
+			g2dPrivate.drawString(name, (float) (x + width/2 - g2dPrivate.getFontMetrics().stringWidth(name)/2), (float) (y + height/2 - FONT.getSize()*0.5));
+			String firstPassengerString = waitingPassengers.size() + " pass.";
+			String secondPassengerString = "waiting";
+			g2dPrivate.drawString(firstPassengerString,  (float) (x + width/2 - g2dPrivate.getFontMetrics().stringWidth(firstPassengerString)/2), (float) (y + height/2 + FONT.getSize()*0.5));
+			g2dPrivate.drawString(secondPassengerString,  (float) (x + width/2 - g2dPrivate.getFontMetrics().stringWidth(secondPassengerString)/2), (float) (y + height/2 + FONT.getSize()*1.5));
+		}
 	}
 	
 	public void waitOneMinute() {
@@ -49,37 +78,17 @@ public class Station implements Drawable {
 			waitingPassengers.remove(0);
 		}
 	}
-
-	public double getX() {
-		return x;
+	
+	public void reset() {
+		waitingPassengers.clear();
 	}
 
 	public void setX(double x) {
 		this.x = x;
 	}
 
-	public double getY() {
-		return y;
-	}
-
 	public void setY(double y) {
 		this.y = y;
-	}
-
-	public double getWidth() {
-		return width;
-	}
-
-	public void setWidth(double width) {
-		this.width = width;
-	}
-
-	public double getHeight() {
-		return height;
-	}
-
-	public void setHeight(double height) {
-		this.height = height;
 	}
 
 }
