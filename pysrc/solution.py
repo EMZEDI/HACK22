@@ -1,45 +1,46 @@
 from structure import Train, csv
 
-# function to optimize the train schedule
-
 '''FUNDAMENTAL ASSUMPTION BEHIND ALGORITHM: To minimize the average wait time, trains should be sent at the time when
 they will enounter the most number of people. Encounter is defined as people who arrived at the station in the two most
 recent arrival time intervals'''
 
-
+# Function to optimize the train schedule
 def optimize():
-    # list of all possible train departure times
-    availableTimes = [minute for minute in range(0, 178)]  # this is in minutes
-    # list of times unavailable for train departure: will be appended as each train departure time is set
+
+    # List of all possible train departure times in minutes
+    availableTimes = [minute for minute in range(181)]
+
+    # List of times unavailable for train departure: will be appended as each train departure time is set
     unavailableTimes = []
 
-    # list of train types that the algorithm will iterate through IF WE HAVE TIME: calcualate the average waiting
+    # List of train types that the algorithm will iterate through IF WE HAVE TIME: calcualate the average waiting
     # time for all permutations of this list. For now, list order chosen by trial and error Only 15 trains in this
     # list, as the last train must leave at 10:00 to make sure everyone is picked up
     trainTypes = [200, 400, 400, 400, 400, 400, 200, 400, 400, 400, 400, 400, 400, 400, 200]
 
-    # list of tuples, of parameters used to construct a train object. Tuple is (capacity, current_time)
+    # List of tuples, of parameters used to construct a train object. Tuple is (capacity, current_time)
     trainSchedule = []
 
-    # for all 15 trains
-    for type1 in trainTypes:
+    # For all 15 trains
+    for t in trainTypes:
 
-        # loop through all available times, skip those that are not available
+        # Loop through all available times, skip those that are not available
         maxEncountered = 0
         bestTime = 0
+
         for time in availableTimes:
-            train = Train(type1, time)
+            train = Train(t, time)
             if time in unavailableTimes:
                 continue
-            # if time is available, check how many people a train would encounter if it left at that time
+            # If time is available, check how many people a train would encounter if it left at that time
             else:
-                ppl_encountered = train.encounter()
+                encountered = train.encounter()
 
-                if ppl_encountered > maxEncountered:
-                    maxEncountered = ppl_encountered
+                if encountered > maxEncountered:
+                    maxEncountered = encountered
                     bestTime = time
 
-        # append this best time to a list of unavailable times, as well as +/- 2 of that time to avoid conflicts in
+        # Append this best time to a list of unavailable times, as well as +/- 2 of that time to avoid conflicts in
         # the station
         unavailableTimes.append(bestTime)
         unavailableTimes.append(bestTime - 1)
@@ -47,14 +48,15 @@ def optimize():
         unavailableTimes.append(bestTime + 1)
         unavailableTimes.append(bestTime + 2)
 
-        finalTrain = Train(type1, bestTime)
+        finalTrain = Train(t, bestTime)
         finalTrain.run_train_optimize()
-        trainSchedule.append((type1, bestTime))
+        trainSchedule.append((t, bestTime))
 
-    # train that leaves at 10:00 (time value of 180) is FIXED
+    # Train that leaves at 10:00 (time value of 180) is FIXED
     trainSchedule.append((200, 180))
     trainSchedule.sort(key=lambda x: x[1])
-    # returns the list of constructor parameters for all 16 trains
+    
+    # Returning the list of constructor parameters for all 16 trains
     return trainSchedule
 
 
@@ -84,7 +86,7 @@ def write_csv(trains: list) -> None:
             writer.writerow([i + 1] + train.details)
 
 
-# function that outputs the csv file
+# Function that outputs the csv file
 def makeSchedule():
     schedule = optimize()
     trainsList = [Train(c, t) for (c, t) in schedule]
@@ -134,3 +136,4 @@ for i, perm in enumerate(perms):
 x = makeSchedule()
 print("Please refer to the output.csv file for the complete train schedule. The average waiting time is", str(x) +
       " Minutes for each person! Unbelievable!")
+
