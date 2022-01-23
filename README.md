@@ -8,10 +8,10 @@ In this repository you can find:<br>
 ---
 # To run the files:
 1- To run the <b>python</b> file associated with the algorithm and see the csv file as an output, Make sure you have python installed
-and run <b>solution.py</b> in the Pywork directory (You can see the average wait time as the output). 
+and <b> If you are on Windows, you have to change the '-'s to '#s' in the structure.py file lines 58 and 109.</b> run <b>solution.py</b> in the Pywork directory (You can see the average wait time as the output). 
 Afterwards, you have to refer to the <b>output.csv</b> file (placed in the same directory) to see the most optimal schedule.
 
 2- To check the <b>visualization</b> part of the project make sure you have the <b>csv</b> file outputted from the python app. You have to run the 
-<b>MainFrame</b> file which is inside the <b>/Jwork/src/application/MainFrame</b> folder (You have to have java virtual machine associated with the Jwork directory) and run the application to see the animation!
+<b>MainFrame</b> file which is inside the <b>/Jwork/src/application</b> folder (You have to have java virtual machine associated with the Jwork directory) and run the application to see the animation!
 
 3- To see the whole overview of the website built you can 

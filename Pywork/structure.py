@@ -4,7 +4,8 @@ import datetime
 
 '''--- OBJECT ORIENTED APPORACH---'''
 
-#Train Station Class
+
+# Train Station Class
 class Station:
 
     def __init__(self, passengers: list, time_to_next: int) -> None:
@@ -32,9 +33,10 @@ class Station:
 
         return [cls(l, t) for l, t in [(a, 11), (b, 12), (c, 14)]]
 
+
 class Train:
     stations = Station.initialise_stations()  # A list of stations
-    optimize_copy = copy.deepcopy(stations) # A cloned list that can be manipulated without affecting the original
+    optimize_copy = copy.deepcopy(stations)  # A cloned list that can be manipulated without affecting the original
     total_waiting_time = 0  # The total time spent waiting for all passengers
     total_passengers_collected = 0  # The total amount of people that took the train
 
@@ -53,7 +55,7 @@ class Train:
 
             # Appending station's arrival time
             self.details.append((datetime.datetime(2000, 1, 1, 7, 0)
-                                 + datetime.timedelta(minutes=self.current_time)).strftime("%#I:%M"))
+                                 + datetime.timedelta(minutes=self.current_time)).strftime("%-I:%M"))
 
             # Appending available capacity
             self.details.append(self.remaining)
@@ -104,7 +106,7 @@ class Train:
 
         # Appending Union Station's arrival time, available capacity, and offloaded amount
         self.details.append((datetime.datetime(2000, 1, 1, 7, 0)
-                             + datetime.timedelta(minutes=self.current_time)).strftime("%#I:%M"))
+                             + datetime.timedelta(minutes=self.current_time)).strftime("%-I:%M"))
         self.details.append(self.remaining)
         self.details.append(self.capacity - self.remaining)
 
@@ -116,23 +118,23 @@ class Train:
 
         return Train.total_waiting_time / Train.total_passengers_collected
 
-    #'encounter' function: if a train were to leave at a certain time, calculates how many people it will
+    # 'encounter' function: if a train were to leave at a certain time, calculates how many people it will
     # encounter. An encounter is defined as those who arrived in the two most recent time windows.
     def encounter(self):
 
         # mirror the run train function but only on self - calculates the number of encounters
         passengers_encountered: int = 0
-        #iterate through stations in the cloned list
+        # iterate through stations in the cloned list
         for station in Train.optimize_copy:
-            #edge case before 7:10 am
+            # edge case before 7:10 am
             if self.current_time // 10 == 0:
                 passengers_encountered += station.passengers[0]
-            #edge case when time is after 10 am
+            # edge case when time is after 10 am
             elif self.current_time > 180:
                 self.current_time = 180
-            #otherwise, normal case
+            # otherwise, normal case
             else:
-                #count the passengers in the two most recent arrival times
+                # count the passengers in the two most recent arrival times
                 for i in range((self.current_time // 10) - 1, (self.current_time // 10) + 1):
                     passengers_encountered += station.passengers[i]
             # advance time to the next stations
