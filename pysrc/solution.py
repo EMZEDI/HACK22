@@ -89,7 +89,7 @@ def optimize_permutation(trainTypes):
 
 # Function to write the CSV information for the given schedule
 def write_csv(trains: list) -> None:
-    with open("output.csv", "w", newline="") as output:
+    with open("static/optimized/output.csv", "w", newline="") as output:
         writer = csv.writer(output, delimiter=",")
 
         writer.writerow([
@@ -120,4 +120,8 @@ def makeSchedule():
     # Writing the CSV of the schedule
     write_csv(trains)
 
-    return av
+    with open("static/optimized/min_wait.txt", "w") as wait_file:
+       wait_file.write(str(av))
+
+# The following is only supposed to be run once (to produce the CSV for the challenge)
+# makeSchedule()
