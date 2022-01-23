@@ -124,15 +124,13 @@ public class MainFrame extends JFrame {
 		pnlSpeed.setLayout(null);
 		pnlTop.add(pnlSpeed);
 		
-		btnStart = new JButton("START");
+		btnStart = new JButton("START/PAUSE");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (btnStart.getText().equals("START")) {
-					animation.start();
-					btnStart.setText("PAUSE");
-				} else {
+				if (animation.isStarted()) {
 					animation.stop();
-					btnStart.setText("START");
+				} else {
+					animation.start();
 				}
 			}
 		});

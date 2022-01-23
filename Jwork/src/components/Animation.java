@@ -101,6 +101,7 @@ public class Animation extends JPanel implements Runnable {
 				e.printStackTrace();
 			}
 		}
+		animationRunning = false;
 	}
 
 	public void setSpeed(int speed) {
@@ -134,6 +135,10 @@ public class Animation extends JPanel implements Runnable {
 		}
 		allPassengers.clear();
 		repaint();
+	}
+	
+	public boolean isStarted() {
+		return animationRunning;
 	}
 
 	private void drawStations(Graphics2D g2d) {
