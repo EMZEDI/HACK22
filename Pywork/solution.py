@@ -34,24 +34,7 @@ def write_csv(trains: list) -> None:
 
 # This schedule currently reflects the one provided in the Google Drive file from RailVision
 
-schedule = [
-    (200, 0),
-    (400, 10),
-    (400, 15),
-    (400, 20),
-    (400, 30),
-    (400, 40),
-    (400, 50),
-    (400, 60),
-    (400, 70),
-    (400, 80),
-    (400, 90),
-    (400, 105),
-    (400, 130),
-    (200, 150),
-    (200, 160),
-    (200, 180),
-]
+schedule = [(400, 0), (400, 17), (400, 20), (200, 23), (400, 39), (400, 40), (400, 49), (400, 60), (400, 67), (400, 70), (200, 87), (400, 90), (400, 110), (400, 130), (200, 150), (200, 180)]
 
 trains = [Train(c, t) for c, t in schedule]
 av = Train.run_schedule(trains)
